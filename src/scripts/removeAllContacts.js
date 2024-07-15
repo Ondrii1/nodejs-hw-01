@@ -1,10 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const { PATH_DB } = require('../constants/contacts');
+import { PATH_DB } from '../constants/contacts.js';
+import fs from 'fs/promises';
 
-function removeAllContacts() {
-  const dbPath = path.resolve(__dirname, '..', PATH_DB);
-  fs.writeFileSync(dbPath, JSON.stringify([], null, 2));
-}
+export const removeAllContacts = async () => {
+    try {
+        await fs.writeFile(PATH_DB, JSON.stringify([]));
+    } catch (error){
+        console.log(error);
+    }
+};
 
-removeAllContacts();
+await removeAllContacts();

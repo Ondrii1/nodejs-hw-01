@@ -1,15 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const { PATH_DB } = require('../constants/contacts');
-const { createFakeContact } = require('../utils/createFakeContact');
 
-function addOneContact() {
-  const dbPath = path.resolve(__dirname, '..', PATH_DB);
-  const contacts = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+import { PATH_DB } from '../constants/contacts.js';
+import fs from 'node:fs/promises';
+import { createFakeContact} from'../utils/createFakeContact.js';
 
-  contacts.push(createFakeContact());
+export const addOneContact = async () => {
+    try{
+       let data = await fs.readFile(PATH_DB, 'utf-8');
+       const contacts = JSON.parse(data);
+       const newContact = createFakeContact();
 
-  fs.writeFileSync(dbPath, JSON.stringify(contacts, null, 2));
-}
+       contacts.push(newContact);
+       await fs.writeFile(PATH_DB, JSON.stringify(contacts, null, 2), 'utf-8');
+    } catch (error){
+        console.log(error);
+    }
+};
 
-addOneContact();
+await addOneContact();

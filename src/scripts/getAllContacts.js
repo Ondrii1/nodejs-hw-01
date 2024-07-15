@@ -1,11 +1,16 @@
-const fs = require('fs');
-const path = require('path');
-const { PATH_DB } = require('../constants/contacts');
+import { PATH_DB } from '../constants/contacts.js';
+import fs from 'fs/promises';
 
-function getAllContacts() {
-  const dbPath = path.resolve(__dirname, '..', PATH_DB);
-  const contacts = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
-  console.log(contacts);
-}
+export const getAllContacts = async () => {
+    try{
+        let data = await fs.readFile(PATH_DB, 'utf-8');
+        const contacts = JSON.parse(data);
+        return contacts;
+     } catch (error){
+         console.log(error);
+         return [];
+     }
+ };
 
-getAllContacts();
+
+console.log(await getAllContacts());

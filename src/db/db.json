@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "name": "Lee Cronin",
+    "phone": "(455) 245-6977",
+    "email": "Cathryn.Wehner@hotmail.com",
+    "job": "Senior Web Representative"
+  },
+  {
+    "name": "Angela Reynolds",
+    "phone": "339-745-4952 x78924",
+    "email": "Trent35@yahoo.com",
+    "job": "Chief Communications Assistant"
+  },
+  {
+    "name": "Matt Paucek PhD",
+    "phone": "560-757-3844",
+    "email": "Weldon.Yost@gmail.com",
+    "job": "Direct Communications Representative"
+  }
+]

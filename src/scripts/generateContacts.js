@@ -1,18 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const { PATH_DB } = require('../constants/contacts');
-const { createFakeContact } = require('../utils/createFakeContact');
+import { PATH_DB } from '../constants/contacts.js';
+import fs from 'node:fs/promises';
+import { createFakeContact} from'../utils/createFakeContact.js';
 
-function generateContacts(count) {
-  const dbPath = path.resolve(__dirname, '..', PATH_DB);
-  const contacts = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+export const generateContacts = async (number) => {
+    try {
+        let data = await fs.readFile(PATH_DB, 'utf-8');
+        const contacts = JSON.parse(data);
+        for (let i = 0; i < number; i++) {
+            contacts.push(createFakeContact());
+        }
 
-  for (let i = 0; i < count; i++) {
-    contacts.push(createFakeContact());
-  }
+        await fs.writeFile(PATH_DB, JSON.stringify(contacts, null, 2), 'utf8');
+    } catch (error) {
+        console.error(error);
+    }
+};
 
-  fs.writeFileSync(dbPath, JSON.stringify(contacts, null, 2));
-}
-
-const count = parseInt(process.argv[2], 10) || 5;
-generateContacts(count);
+await generateContacts( 5);

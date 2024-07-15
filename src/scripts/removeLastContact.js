@@ -1,15 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const { PATH_DB } = require('../constants/contacts');
+import { PATH_DB } from '../constants/contacts.js';
+import fs from 'fs/promises';
 
-function removeLastContact() {
-  const dbPath = path.resolve(__dirname, '..', PATH_DB);
-  const contacts = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
-
-  if (contacts.length > 0) {
-    contacts.pop();
-    fs.writeFileSync(dbPath, JSON.stringify(contacts, null, 2));
-  }
-}
-
-removeLastContact();
+export const removeLastContact = async () => {
+    try{
+        const data = await fs.readFile(PATH_DB, 'utf-8');
+        let contacts = JSON.parse(data);
+        const remainContacts = contacts.filter(() => Math.random() > 0.5);
+        await fs.writeFile(PATH_DB, JSON.stringify(remainContacts, null, 2));
+    }catch (error){
+        console.log(error);
+    }
+};
+await removeLastContact();
